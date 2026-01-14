@@ -77,7 +77,7 @@ void solve(){
     ll y=m-x+1;
     cout<<m/y<<nl;
 }
-
+   
 int32_t main(){
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
