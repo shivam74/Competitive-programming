@@ -1,0 +1,1 @@
+{"name":"Local: Nested_Ranges_Check","url":"d:\\code\\cp\\practice\\cses search-sort\\Nested_Ranges_Check.cpp","tests":[{"id":1766089123378,"input":"4\n1 6\n2 4\n4 8\n3 6","output":"2 0 0 0\n0 1 0 1"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"d:\\code\\cp\\practice\\cses search-sort\\Nested_Ranges_Check.cpp","group":"local","local":true}

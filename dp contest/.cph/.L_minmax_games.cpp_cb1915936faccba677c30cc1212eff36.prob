@@ -1,0 +1,1 @@
+{"name":"Local: L_minmax_games","url":"d:\\code\\cp\\dp contest\\L_minmax_games.cpp","tests":[{"id":1755672857992,"input":"10\n1000000000 1 1000000000 1 1000000000 1 1000000000 1 1000000000 1\n","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"d:\\code\\cp\\dp contest\\L_minmax_games.cpp","group":"local","local":true}
