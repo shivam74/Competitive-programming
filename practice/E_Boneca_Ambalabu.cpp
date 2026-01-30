@@ -72,31 +72,32 @@ long long modInverse(long long a, long long mod) {
 
 void solve(){
     ll n; cin>>n;
-    ll k ; cin>> k;
-    vll q(n),r(n);
-    fl(i,0,n-1)cin>>q[i];
-    fl(i,0,n-1)cin>>r[i];
-    sort(all(q));
-    sort(all(r));
-    ll l=0,h=n;
+    vll v(n);
+    vll bit(33);
+    fl(i,0,n-1){
+        cin>>v[i];
+        for(ll j=0;j<31;j++){
+            if((v[i] & 1<<j))bit[j]++;
+        }
+    }
     ll ans=0;
-    while(l<=h){
-        ll m = l + (h-l)/2;
-        ll possible=true;
-        for(ll i=0;i<m;i++){
-            if((q[i]+1)*(r[m-i-1]+1)-1>k){
-                possible = false;
-                break;
+    // for(ll j=0;j<31;j++){
+    //         cout<<bit[j]<<" ";
+    //     }
+    //     cout<<endl;
+    fl(i,0,n-1){
+        ll temp=0;
+        for(ll j=0;j<31;j++){
+            
+            if(!(v[i] & (1<<j))){
+                temp+=pow(2,j)*bit[j];
+            }
+            else{
+                temp+=pow(2,j)*(n-bit[j]);
             }
         }
-        if(possible){
-            ans=m;
-            l=m+1;
-        }
-        else{
-            h=m-1;
-        }
-    } 
+        ans=max(ans,temp);
+    }
     cout<<ans<<endl;
 }
 

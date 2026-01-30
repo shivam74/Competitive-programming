@@ -68,30 +68,32 @@ long long modInverse(long long a, long long mod) {
     return modExp(a, mod - 2, mod);
 }
 
-//------------------------Solution starts from here------------------------
+//------------------------------------Solution starts from here--------------------------------
 
 void solve(){
     ll n; cin>>n;
     vll v(n);
-    map<ll,ll> mp;
+    map<ll,ll> mp1,mp2;
     fl(i,0,n-1){
         cin>>v[i];
-        mp[v[i]]++;
     }
-    set<ll> st;
-    ll cnt=0;
+    ll cnt=1;
     ll ans=0;
-    for(ll i=0;i<n;i++){
-        mp[v[i]]--;
-        st.insert(v[i]);
-        if(mp[v[i]]>0){
-            cnt++;
+    mp1[v[0]]++;
+    ll extra=0;
+    for(ll i=1;i<n;i++){
+        mp2[v[i]]++;
+        if(mp1[v[i]] == 0){
+            extra++;
+            mp1[v[i]]++;
         }
-        if(cnt==st.size()){
-            ans++;
-        }  
+        if(mp1.size() - extra==mp2.size()-extra){
+            mp2.clear();
+            cnt++;
+            extra=0;
+        }
     }
-    cout<<ans<<endl;
+    cout<<cnt<<endl;
 }
 
 int32_t main(){

@@ -72,32 +72,59 @@ long long modInverse(long long a, long long mod) {
 
 void solve(){
     ll n; cin>>n;
-    ll k ; cin>> k;
-    vll q(n),r(n);
-    fl(i,0,n-1)cin>>q[i];
-    fl(i,0,n-1)cin>>r[i];
-    sort(all(q));
-    sort(all(r));
-    ll l=0,h=n;
-    ll ans=0;
-    while(l<=h){
-        ll m = l + (h-l)/2;
-        ll possible=true;
-        for(ll i=0;i<m;i++){
-            if((q[i]+1)*(r[m-i-1]+1)-1>k){
-                possible = false;
-                break;
-            }
+    string s;
+    cin>>s;
+    vll left(n),right(n);
+    if(s[0]=='1'){
+        left[0]=1;
+    }
+    if(s[n-1]=='0'){
+        right[n-1]=1;
+    }
+    fl(i,1,n-1){
+        if(s[i]=='1')left[i]=left[i-1]+1;
+        else left[i]=left[i-1];
+    }
+    rl(i,n-2,0){
+        if(s[i]=='0'){
+            right[i]=1+right[i+1];
         }
-        if(possible){
-            ans=m;
-            l=m+1;
+        else right[i]=right[i+1];
+    }
+    ll ind = -1;
+    fl(i,0,n-1){
+        if(left[i]<=right[i]){
+            ind=i;
         }
-        else{
-            h=m-1;
+    }
+    if(ind==-1 || left[ind]==0){
+        cout<<"Bob"<<endl;
+        return;
+    }
+    cout<<"Alice"<<endl;
+    cout<<left[ind]+right[ind]<<endl;
+    ll cnt=0;
+    for(ll i=0;i<=ind;i++){
+        if(s[i]=='1'){
+            cout<<i+1<<" ";
+            cnt++;
         }
-    } 
-    cout<<ans<<endl;
+        if(cnt==left[ind]){
+            break;
+        }
+    }
+    cnt=0;
+    for(ll i=ind;i<n;i++){
+        if(s[i]=='0'){
+            cout<<i+1<<" ";
+            cnt++;
+        }
+        if(cnt==right[ind]){
+            break;
+        }
+    }
+    cout<<endl;
+    
 }
 
 int32_t main(){

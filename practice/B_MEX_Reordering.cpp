@@ -71,33 +71,44 @@ long long modInverse(long long a, long long mod) {
 //------------------------Solution starts from here------------------------
 
 void solve(){
-    ll n; cin>>n;
-    ll k ; cin>> k;
-    vll q(n),r(n);
-    fl(i,0,n-1)cin>>q[i];
-    fl(i,0,n-1)cin>>r[i];
-    sort(all(q));
-    sort(all(r));
-    ll l=0,h=n;
-    ll ans=0;
-    while(l<=h){
-        ll m = l + (h-l)/2;
-        ll possible=true;
-        for(ll i=0;i<m;i++){
-            if((q[i]+1)*(r[m-i-1]+1)-1>k){
-                possible = false;
+    ll n;
+    cin>>n;
+    vll v(n);
+    map<ll,ll> suff;
+    fl(i,0,n-1){
+        cin>>v[i];
+        suff[v[i]]++;
+    }
+    sort(all(v));
+    map<ll,ll> mp;
+    fl(i,0,n-2){
+        mp[v[i]]++;
+        suff[v[i]]--;
+        ll l=0;
+        for(ll j=0;j<=100;j++){
+            if(mp[j]==0){
+                l=j;
                 break;
             }
         }
-        if(possible){
-            ans=m;
-            l=m+1;
+        // if(i==0){
+        //     cout<<mp[0]<<endl;
+        //     cout<<suff[0]<<endl;
+        // }
+        ll r=0;
+        for(ll j=0;j<=100;j++){
+            if(suff[j]==0){
+                 r=j;
+                break;
+            }
         }
-        else{
-            h=m-1;
+        //cout<<l<<" "<<r<<nl;
+        if(l==r){
+            cout<<"NO"<<endl;
+            return;
         }
-    } 
-    cout<<ans<<endl;
+    }
+    cout<<"YES"<<endl;
 }
 
 int32_t main(){

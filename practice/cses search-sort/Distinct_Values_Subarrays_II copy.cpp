@@ -20,7 +20,7 @@ using namespace __gnu_pbds;
 // Ordered Set Template (Ordered multiset)
 //ordered_set s;
 //s.order_of_key(x) it give no. of elements less than x
-//s.find_by_order(i) (i->[0-(n-1)]) it give the iterator of i'th element in the set
+//s.find_by_order(i) (i->[0-(n-1)]) it give an iterator of i'th element in the set
 typedef tree<
     long long, //pii(pair<ll,ll>
     null_type,

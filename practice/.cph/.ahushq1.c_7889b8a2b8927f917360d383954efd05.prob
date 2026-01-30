@@ -1,0 +1,1 @@
+{"name":"Local: ahushq1","url":"d:\\code\\cp\\practice\\ahushq1.c","tests":[{"id":1768572360397,"input":"10/2\n","output":""},{"id":1768572779758,"input":"10*4\n","output":""},{"id":1768572789790,"input":"111/20\n","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"d:\\code\\cp\\practice\\ahushq1.c","group":"local","local":true}

@@ -41,7 +41,7 @@ bool isprime(ll x){
     return true;
 }
 
-ll mod = 1e9+7;
+ll mod = 998244353;
 vector<ll> primeFactors(ll n) {
     vector<ll> factors;
     while (n % 2 == 0) { factors.push_back(2); n /= 2; }
@@ -64,6 +64,8 @@ ll modExp(ll a, ll b, ll mod){
       }
       return res;
 }
+
+//mod is prime 
 long long modInverse(long long a, long long mod) {
     return modExp(a, mod - 2, mod);
 }
@@ -71,33 +73,40 @@ long long modInverse(long long a, long long mod) {
 //------------------------Solution starts from here------------------------
 
 void solve(){
-    ll n; cin>>n;
-    ll k ; cin>> k;
-    vll q(n),r(n);
+    ll n ; cin>>n;
+    vll p(n),q(n);
+    fl(i,0,n-1)cin>>p[i];
     fl(i,0,n-1)cin>>q[i];
-    fl(i,0,n-1)cin>>r[i];
-    sort(all(q));
-    sort(all(r));
-    ll l=0,h=n;
-    ll ans=0;
-    while(l<=h){
-        ll m = l + (h-l)/2;
-        ll possible=true;
-        for(ll i=0;i<m;i++){
-            if((q[i]+1)*(r[m-i-1]+1)-1>k){
-                possible = false;
-                break;
-            }
-        }
-        if(possible){
-            ans=m;
-            l=m+1;
+    vector<pair<ll,ll>> ans(n);
+    vll pmx(n),qmx(n);//index of maximum in p and q upto i
+    pmx[0]=0,qmx[0]=0;
+    fl(i,1,n-1){
+        if(p[i]>=p[pmx[i-1]]){
+            pmx[i]=i;
         }
         else{
-            h=m-1;
+            pmx[i]=pmx[i-1];
         }
-    } 
-    cout<<ans<<endl;
+        if(q[i]>=q[qmx[i-1]]){
+            qmx[i]=i;
+        }
+        else{
+            qmx[i]=qmx[i-1];
+        }
+    }
+    fl(i,0,n-1){
+        pair<ll,ll> p1={max(p[pmx[i]],q[i-pmx[i]]),min(p[pmx[i]],q[i-pmx[i]])};
+        pair<ll,ll> q1={max(q[qmx[i]],p[i-qmx[i]]),min(q[qmx[i]],p[i-qmx[i]])};
+        ans[i]= max(p1,q1);
+    }
+    vll finalAns(n);
+    fl(i,0,n-1){
+        finalAns[i]=(modExp(2,ans[i].first,mod)+modExp(2,ans[i].second,mod))%mod;
+    }
+    fl(i,0,n-1){
+        cout<<finalAns[i]<<" ";
+    }
+    cout<<nl;
 }
 
 int32_t main(){

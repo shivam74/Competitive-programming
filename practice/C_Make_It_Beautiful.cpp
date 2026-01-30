@@ -71,33 +71,37 @@ long long modInverse(long long a, long long mod) {
 //------------------------Solution starts from here------------------------
 
 void solve(){
-    ll n; cin>>n;
-    ll k ; cin>> k;
-    vll q(n),r(n);
-    fl(i,0,n-1)cin>>q[i];
-    fl(i,0,n-1)cin>>r[i];
-    sort(all(q));
-    sort(all(r));
-    ll l=0,h=n;
+    ll n,k; cin>>n>>k;
+    vll v(n); fl(i,0,n-1)cin>>v[i];
     ll ans=0;
-    while(l<=h){
-        ll m = l + (h-l)/2;
-        ll possible=true;
-        for(ll i=0;i<m;i++){
-            if((q[i]+1)*(r[m-i-1]+1)-1>k){
-                possible = false;
-                break;
+    ll cnt=0;
+    vll cnt_bit(64);
+    for(ll i=0;i<n;i++){
+        //cout<<__builtin_popcountll(v[i])<<nl;
+        if(v[i]%2==0 && k>0){
+            v[i]+=1;
+            k--;
+        }
+        for(ll j=0;j<64;j++){
+            if(((v[i]>>j) & 1ll)==0){
+                cnt_bit[j]++;
             }
         }
-        if(possible){
-            ans=m;
-            l=m+1;
+        ans+= __builtin_popcountll(v[i]);
+    }
+    // for(ll j=0;j<64;j++){
+    //         cout<<cnt_bit[j]<<" ";
+    //     }
+    //     cout<<endl;
+    if(k>0){
+        for(ll i=0;i<64;i++){
+            ll x=pow(2,i);
+            ll y=min(k/x,cnt_bit[i]);
+            ans+=y;
+            k-=y*x;
         }
-        else{
-            h=m-1;
-        }
-    } 
-    cout<<ans<<endl;
+    }
+    cout<<ans<<nl;
 }
 
 int32_t main(){

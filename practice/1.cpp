@@ -71,7 +71,24 @@ long long modInverse(long long a, long long mod) {
 //------------------------Solution starts from here------------------------
 
 void solve(){
-    
+    vector<int> p = {2 ,4, 1, 5,3};
+    vector<int> q = {4,2 ,1, 5,3};
+    vector<int> pos(6);
+    for(ll i=0;i<5;i++){
+        pos[p[i]]=i;
+    }
+    vector<int> trans(5);
+    for(ll i=0;i<5;i++){
+        trans[i]=pos[q[i]];
+    }
+    for(ll i=1;i<=5;i++){
+        cout<<pos[i]<<" ";
+    }
+    cout<<endl;
+    for(ll i=0;i<5;i++){
+        cout<<trans[i]<<" ";
+    }
+    cout<<endl;
 }
 
 int32_t main(){

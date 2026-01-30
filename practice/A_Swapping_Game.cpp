@@ -70,40 +70,63 @@ long long modInverse(long long a, long long mod) {
 
 //------------------------Solution starts from here------------------------
 
-void solve(){
-    ll n; cin>>n;
-    ll k ; cin>> k;
-    vll q(n),r(n);
-    fl(i,0,n-1)cin>>q[i];
-    fl(i,0,n-1)cin>>r[i];
-    sort(all(q));
-    sort(all(r));
-    ll l=0,h=n;
-    ll ans=0;
-    while(l<=h){
-        ll m = l + (h-l)/2;
-        ll possible=true;
-        for(ll i=0;i<m;i++){
-            if((q[i]+1)*(r[m-i-1]+1)-1>k){
-                possible = false;
-                break;
+ll cntInversion(vector<ll> &p,vector<ll> &q,ll l){
+    vector<ll> pos(l+1);
+    for(ll i=0;i<l;i++){
+        pos[p[i]]=i;
+    }
+    ll cnt=0;
+    
+
+    for(ll i=0;i<l;i++){
+        for(ll j=i+1;j<l;j++){
+            if(pos[q[i]]>pos[q[j]]){
+                cnt++;
             }
         }
-        if(possible){
-            ans=m;
-            l=m+1;
+    }
+    return cnt;
+}
+
+void solve(){
+    ll n,l; cin>>n>>l;
+    vector<ll> dp(n+1);
+    vector<ll> mxDp(n+1);
+    vector<vector<ll>> v(n+1);
+    vector<ll> vi;
+    for(ll i=1;i<=l;i++){
+        vi.push_back(i);
+    }
+    
+    for(ll i=1;i<=n;i++){
+        ll c; cin>>c;
+        for(ll j=0;j<l;j++){
+            ll x; cin>>x;
+            v[i].push_back(x);
+        }      
+        ll cnt=cntInversion(vi,v[i],l);
+        if(cnt<=i)dp[i]=c;
+        ll mx=0;
+        ll m=(l*(l-1))/2;
+        for(ll j=1;j<=m && i-j>0;j++){
+            ll cnti=cntInversion(v[i-j],v[i],l);
+            if(cnti<=j)mx=max(mx,dp[i-j]);
         }
-        else{
-            h=m-1;
-        }
-    } 
+        mx=max(mxDp[max(0ll,i-m-1)],mx);
+        dp[i]+=mx;
+        mxDp[i]=max(mxDp[i-1],dp[i]);
+    }
+    ll ans=0;
+    for(ll i=1;i<=n;i++){
+        ans=max(ans,dp[i]);
+    }
     cout<<ans<<endl;
 }
 
 int32_t main(){
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    test
+    //test
         solve();
     return 0;
 }

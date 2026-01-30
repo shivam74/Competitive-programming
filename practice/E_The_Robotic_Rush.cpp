@@ -71,33 +71,60 @@ long long modInverse(long long a, long long mod) {
 //------------------------Solution starts from here------------------------
 
 void solve(){
-    ll n; cin>>n;
-    ll k ; cin>> k;
-    vll q(n),r(n);
-    fl(i,0,n-1)cin>>q[i];
-    fl(i,0,n-1)cin>>r[i];
-    sort(all(q));
-    sort(all(r));
-    ll l=0,h=n;
-    ll ans=0;
-    while(l<=h){
-        ll m = l + (h-l)/2;
-        ll possible=true;
-        for(ll i=0;i<m;i++){
-            if((q[i]+1)*(r[m-i-1]+1)-1>k){
-                possible = false;
-                break;
-            }
+    ll n,m,k;
+    cin>>n>>m>>k;
+    vll a(n),b(m);
+    set<ll> setb;
+    fl(i,0,n-1){
+        cin>>a[i];
+        //seta.insert(a[i]);
+    }
+    fl(i,0,m-1){
+        cin>>b[i];
+        setb.insert(b[i]);
+    }
+    string s; cin>>s;
+    map<ll,ll> shift;
+    map<ll,vector<ll>> corres;
+    sort(all(a));
+    for(auto &x:a){
+        auto it = setb.lower_bound(x);
+        if(it==setb.begin()){
+            shift[*it-x]++;
         }
-        if(possible){
-            ans=m;
-            l=m+1;
+        else if(it==setb.end()){
+            --it;
+            shift[*it-x]++;
         }
         else{
-            h=m-1;
+            shift[*it-x]++;
+            ll z=*it-x;
+            --it;
+            shift[*it-x]++;
+            corres[z].push_back((*it-x));
+            corres[*it-x].push_back(z);
         }
-    } 
-    cout<<ans<<endl;
+    }
+    ll cur=0;
+    ll cnt=n;
+    for(ll i=0;i<k;i++){
+        if(s[i]=='R'){
+            cur++;
+        }
+        else{
+            cur--;
+        }
+        if(shift[cur]>0){
+            cnt-=shift[cur];
+            shift[cur]=0;
+            for(auto &x: corres[cur]){
+                shift[x]--;
+            }
+        }
+        if(cnt<0)cnt=0;
+        cout<<cnt<<" ";
+    }
+    cout<<nl;
 }
 
 int32_t main(){

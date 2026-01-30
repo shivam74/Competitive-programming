@@ -72,33 +72,34 @@ long long modInverse(long long a, long long mod) {
 
 void solve(){
     ll n; cin>>n;
-    ll k ; cin>> k;
-    vll q(n),r(n);
-    fl(i,0,n-1)cin>>q[i];
-    fl(i,0,n-1)cin>>r[i];
-    sort(all(q));
-    sort(all(r));
-    ll l=0,h=n;
-    ll ans=0;
-    while(l<=h){
-        ll m = l + (h-l)/2;
-        ll possible=true;
-        for(ll i=0;i<m;i++){
-            if((q[i]+1)*(r[m-i-1]+1)-1>k){
-                possible = false;
-                break;
-            }
-        }
-        if(possible){
-            ans=m;
-            l=m+1;
+    string s;
+    cin>>s;
+
+    vll nxt(n,n+1),suff(n);
+    nxt[n-1]=n+3;
+    rl(i,n-2,0){
+        if(s[i]=='('){
+            nxt[i]=i;
         }
         else{
-            h=m-1;
+            nxt[i]=nxt[i+1];
         }
-    } 
+        if(s[i]=='('){
+            suff[i]+=1;
+        }
+        suff[i]+=suff[i+1];
+    }
+    ll ans=-1;
+    fl(i,0,n-1){
+        //cout<<nxt[i]<<" ";
+        if(s[i]==')' && nxt[i]<n){
+            if(suff[nxt[i]+1]>=nxt[i]-i)ans=max(ans,n-2*(nxt[i]-i));
+        }
+    }
+    //cout<<endl;
     cout<<ans<<endl;
 }
+
 
 int32_t main(){
     ios_base::sync_with_stdio(false);
