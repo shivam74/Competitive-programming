@@ -17,13 +17,19 @@ typedef long double lld;
 #include <ext/pb_ds/tree_policy.hpp>
 using namespace __gnu_pbds;
 
+// Ordered Set Template (Ordered multiset)
+//ordered_set s;
+//s.order_of_key(x) it give no. of elements less than x
+//s.find_by_order(i) (i->[0-(n-1)]) it give the iterator of i'th element in the set
 typedef tree<
-    ll,
+    long long, //pii(pair<ll,ll>
     null_type,
-    less<ll>,
+    less<long long>,//less<pii>
     rb_tree_tag,
     tree_order_statistics_node_update
->ordered_set;
+> ordered_set;//ordered_multiset
+
+
 
 bool isprime(ll x){
     if (x < 2) return false;
@@ -70,18 +76,19 @@ void solve(){
     fl(i,0,n-1){
         cin>>v[i];
     }
-    ordered_set s;
-    ll total =0;
-    for(ll i=0;i<n-1;i++){
-        total += v[i];
-        ll x=n-(i+1);
-        ll sum = ((n*(n+1))/2)-(((x)*(x+1))/2);
-        if(total==sum ){
-            cout<<"No"<<nl;
-            return;
+    sort(v.begin(),v.end());
+    ll ans=0;
+    map<ll,ll> m;
+    ll mx = * max_element(v.begin(),v.end());
+    for(ll i=0;i<n;i++){
+        for(ll j=i+1;j<n;j++){
+            ll x=v[i]+v[j];
+            ll id = lower_bound(v.begin(),v.end(),x) - v.begin();
+            ll mx2=max(mx,2*v[id-1]);
+            if(v[i]+v[j]+v[id-1]>mx)ans+=id-j-1;
         }
     }
-    cout<<"YES"<<nl;
+    cout<<ans<<nl;
 }
 
 int32_t main(){
