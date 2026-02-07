@@ -1,38 +1,200 @@
-#include <bits/stdc++.h>
-
-using namespace std;
-
-const int inf = (int)1e9;
-const int N = 777;
-
-int c[N];
-int f[N][N];
-
-int main() {
-  int n;
-  scanf("%d", &n);
-  for (int i = 0; i < n; i++) {
-    scanf("%d", c + i);
-  }
-  for (int i = n - 1; i >= 0; i--) {
-    for (int j = i; j < n; j++) {
-      if (i == j) {
-        f[i][j] = 1;
-        continue;
-      }
-      if (i + 1 == j) {
-        f[i][j] = (c[i] == c[j] ? 1 : 2);
-        continue;
-      }
-      f[i][j] = inf;
-      for (int k = i; k < j; k++) {
-        f[i][j] = min(f[i][j], f[i][k] + f[k + 1][j]);
-      }
-      if (c[i] == c[j]) {
-        f[i][j] = min(f[i][j], f[i + 1][j - 1]);
-      }
-    }
-  }
-  printf("%d\n", f[0][n - 1]);
-  return 0;
-}
+sniper_0101
+4lt_5hift_3lite	10	1923
+Shiv1374	25	1922
+Mondongo24	8	1922
+lucky__389	124	1921
+dpsvoyager.16	82	1921
+mightguy106	45	1920
+ryuk_baba	21	1919
+Cyros	13	1919
+I.M.F	24	1918
+EndlessDreamzz	44	1918
+boosted_123	8	1918
+Mathematical_Coder	55	1917
+vishaaaal	181	1917
+Too_Weak_To_Anything	80	1915
+MadCoder031	32	1915
+advaitam	40	1915
+jayantjha1109	175	1914
+Yagnik_Dhameliya	169	1914
+naitik_agrawal	85	1914
+adi_7861	140	1913
+pienotpi	103	1913
+_helloLad	199	1913
+NotSauravMehra	48	1913
+StressLimitExceeded	52	1913
+Sachchit	56	1913
+221 (4242)	Индияbobby6264	17	1913
+shrey71	107	1912
+Harshvardhan_Acharya	45	1911
+smittcodes	41	1911
+Riemann25	56	1911
+Ryujin_mizu	5	1911
+phoenixluaoyd	34	1910
+solanki_aadarsh	90	1910
+aryak05	42	1910
+Entity069	24	1910
+shrapnelzz	123	1909
+Neyoo0101	13	1909
+clubpenguinfan	63	1908
+Vikas_soni	37	1908
+KiloJoule	23	1908
+untouchable	72	1907
+SumitKundu	32	1906
+SumitXorY	36	1905
+akshit5638	158	1904
+umesh_konduru	37	1904
+BitWizz	56	1904
+AryRDW	185	1903
+MayankBhakat	161	1903
+jvatsal79	47	1903
+jenil0108	143	1903
+kamyak	32	1902
+abhijain565aj	107	1902
+codaks14	55	1901
+ReaperScythe21	67	1901
+yeswanth	74	1900
+LuciferIsBack	13	1900
+thotakesavachandra	38	1898
+nikhil_thogaru	96	1897
+kevaljain	197	1896
+om_biradar	19	1896
+madhav_23	124	1895
+sinistration	18	1894
+Akui013	7	1893
+Yasho_ham	82	1892
+Ruthvik2835	181	1891
+realaashil	36	1891
+Rahul	190	1890
+danCrusoe	108	1890
+14_15_16	58	1890
+__AB__	102	1889
+arnavra3	148	1889
+Goku_Kakarot	13	1888
+Pew_Pew.	135	1888
+lordamara	54	1888
+SambhavJain	133	1886
+parag776	61	1885
+royshubham	15	1885
+Coding............	59	1885
+NiGhT-h-MaRe	41	1884
+ompatel45672	60	1884
+godsparticle	100	1883
+Y-axis_formula	24	1883
+Minatooo0	45	1883
+Imlevelingup	37	1881
+kdisback	23	1881
+Rajat.18	253	1880
+naresh1	41	1878
+sanchit1053	128	1877
+Mehul_zzz	51	1877
+5imp	49	1877
+unifer	32	1877
+sixthcore	105	1876
+Katakuri57	35	1876
+anish06	65	1876
+Krabbypatty	58	1875
+satyam343	233	1874
+neel__18	73	1874
+bruhumma	45	1873
+MysticMavericks	48	1873
+03mishramayank123	11	1873
+hewhocodes	124	1871
+The_Elephant	46	1871
+Shubham_KV	11	1871
+ArrayKnight	23	1871
+SleepyyMind	103	1870
+dangiyatharth9	84	1870
+taran_1407	180	1869
+Immerser	116	1869
+bhavikarora143	81	1869
+AdityABIRLA2005	16	1869
+MaiHoonDawn	49	1869
+pallavgoyal136	104	1868
+_shubham__sah	6	1868
+karngyan	61	1867
+Shashwat_skr	59	1867
+lightning_mcqueen	36	1867
+demoxorgon	20	1867
+darsh_sodani007	29	1867
+coder_pulkit_c	133	1866
+Rittin_Sehgal	187	1866
+SamyakSinghania	130	1865
+ntt_not_found	47	1864
+boyzz	16	1862
+asterisk11	107	1861
+ryuzen	54	1861
+accord	100	1860
+avg_electrical_enjoyer	25	1860
+LuckyAgrawal	17	1858
+nilay_agarwal	64	1858
+ankitraj803120	24	1855
+krishna_saini	23	1855
+duster_amigos	22	1855
+ace01	215	1854
+Nash_Okano	58	1854
+Vassu05	201	1853
+Mindmaster48	21	1852
+mansa_banna	146	1851
+DexCoding	18	1851
+parody_new	25	1849
+24112006	65	1849
+nebul7	20	1849
+sharpsalt	17	1849
+aditya07agrawal	132	1848
+MrPizza	59	1848
+bhavya_19	30	1848
+Eshan_Karia	59	1847
+hardixk	20	1847
+_rudra_pratap_singh_	52	1847
+Sigma_869	16	1847
+kanishkgupta071	111	1846
+deepanshusau	87	1843
+average_engineer	45	1842
+skg630	33	1842
+psyduck06	75	1842
+Eren12	23	1841
+_KS_	178	1841
+sam990	125	1841
+4M49_H3R3	49	1841
+Rushi_Vivek	75	1840
+Patilaniruddha	30	1839
+Mohd_Faiz	112	1838
+SenSuS	5	1838
+_gladiator_	26	1837
+_sacred_021	54	1837
+kiwi_1	81	1837
+no_oneplb	40	1836
+Coder.124421	60	1836
+.BOSS.	41	1836
+HoneyGupta	69	1835
+MastPlanHai	44	1835
+Muqeeth7	84	1834
+nikT	76	1834
+harshgarg	107	1834
+KillSwitch7	43	1833
+SardonyxX_1628	67	1833
+trappedintesseract	55	1831
+contests_superhero	10	1831
+SharpStalker	37	1830
+ayuxhkumxr22	83	1830
+arshad_shahzeb	136	1829
+Ceilings	137	1829
+BoundlessBit	31	1829
+Ankr08	78	1829
+Dragokj03	152	1828
+vellacoder	14	1828
+why_are_you_GrAY	11	1827
+r-tron18	72	1826
+pranavsingh0111	86	1826
+Senku	115	1825
+AnAverageElectrician	57	1825
+Soumojitkgp	49	1825
+Sachin0106	19	1825
+bhanu2306	47	1824
+jiraiya_chan	84	1824
+Shubham_1428	11	1824
+ayushdreams147	82	1824
+Dresist	51	1824
+srikkanthr	247	1823
+vishwas_16.0
