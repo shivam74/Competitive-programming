@@ -98,33 +98,66 @@ long long modInverse(long long a, long long mod)
 
 void solve()
 {
+    // ll n;
+    // cin >> n;
+    // map<ll, ll> mp;
+    // fl(i, 0, n - 1)
+    // {
+    //     ll x;
+    //     cin >> x;
+    //     mp[x]++;
+    // }
+    // vll dp(n + 1, INT_MAX);
+    // for (ll i = 1; i <= n; i++)
+    // {
+    //     if (mp[i] > 0)
+    //         dp[i] = 1;
+    //     if (dp[i] == INT_MAX)
+    //         for (ll j = 1; j * j <= i; j++)
+    //         {
+    //             if (i % j == 0)
+    //             {
+    //                 ll k = i / j;
+    //                 if (dp[j] > 0 && dp[k] > 0)
+    //                 {
+    //                     dp[i] = min(dp[i], dp[k] + dp[j]);
+    //                 }
+    //             }
+    //         }
+    // }
     ll n;
     cin >> n;
-    map<ll, ll> mp;
-    fl(i, 0, n - 1)
-    {
+
+    // 1. Use a vector/array for O(1) existence checks instead of a map
+    vector<int> exists(n + 1, 0);
+    vll dp(n + 1, INT_MAX); // Using a large value instead of INT_MAX to avoid overflow
+
+    for (int i = 0; i < n; i++) {
         ll x;
         cin >> x;
-        mp[x]++;
+        if (x <= n) {
+            exists[x] = 1;
+            dp[x] = 1; // Base case: numbers in the input have a cost of 1
+        }
     }
-    vll dp(n + 1, INT_MAX);
-    for (ll i = 1; i <= n; i++)
-    {
-        if (mp[i] > 0)
-            dp[i] = 1;
-        if (dp[i] == INT_MAX)
-            for (ll j = 1; j * j <= i; j++)
-            {
-                if (i % j == 0)
-                {
-                    ll k = i / j;
-                    if (dp[j] > 0 && dp[k] > 0)
-                    {
-                        dp[i] = min(dp[i], dp[k] + dp[j]);
-                    }
-                }
+
+    // 2. The Harmonic Sieve Loop: O(N log N)
+    for (ll i = 1; i <= n; i++) {
+        // If i is unreachable, we can't use it to build larger numbers
+        if (dp[i] == 1e9) continue;
+
+        // Jump through multiples of i
+        // j = i * k, where k is a number from our input set
+        // To keep it O(N log N), we iterate through all multiples j
+        for (ll j = 2 * i; j <= n; j += i) {
+            ll k = j / i;
+            if (k <= n && exists[k]) {
+                // If the multiplier 'k' was in our input, update dp[j]
+                dp[j] = min(dp[j], dp[i] + 1);
             }
+        }
     }
+
     for (ll i = 1; i <= n; i++)
     {
         if (dp[i] == INT_MAX)
