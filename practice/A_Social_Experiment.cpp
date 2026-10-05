@@ -1,91 +1,105 @@
-#include <bits/stdc++.h>
-using namespace std;
+#include <iostream>
+#include <cstring>
+#include <cstdlib>
 
-#define ll long long
-#define INF 5*1e18
-typedef unsigned long long ull;
-typedef long double lld;
+typedef long long llint;
 
-#define test ll t; cin >> t; while(t--)
-#define vll vector<ll>
-#define all(v) v.begin(),v.end()
-#define fl(i,f,d) for(ll i=f;i<=d;i++)
-#define rl(i,f,d) for(ll i=f;i>=d;i--)
-#define nl "\n"
-#define setbits(n)  __builtin_popcountll(n)
-#define bitsize(n) (63 - __builtin_clzll(n))
-#define lcm(a,b) (a/__gcd(a, b)*b)
-
-#include <ext/pb_ds/assoc_container.hpp>
-#include <ext/pb_ds/tree_policy.hpp>
-using namespace __gnu_pbds;
-
-// Ordered Set Template (Ordered multiset)
-//ordered_set s;
-//s.order_of_key(x) it give no. of elements less than x
-//s.find_by_order(i) (i->[0-(n-1)]) it give the iterator of i'th element in the set
-typedef tree<
-    long long, //pii(pair<ll,ll>
-    null_type,
-    less<long long>,//less<pii>
-    rb_tree_tag,
-    tree_order_statistics_node_update
-> ordered_set;//ordered_multiset
-
-
-
-bool isprime(ll x){
-    if (x < 2) return false;
-    if (x == 2) return true;
-    if (x % 2 == 0) return false;
-    for(ll i = 3; i * i <= x; i += 2){
-        if (x % i == 0) return false;
+llint alignProcess(int M, int N, int *rtime, int *complex)
+{
+    // 1. Calculate prefix sums of robot times
+    llint *pref = new llint[N + 1];
+    pref[0] = 0;
+    for (int i = 0; i < N; ++i) {
+        pref[i + 1] = pref[i] + rtime[i];
     }
-    return true;
-}
 
-ll mod = 1e9+7;
-vector<ll> primeFactors(ll n) {
-    vector<ll> factors;
-    while (n % 2 == 0) { factors.push_back(2); n /= 2; }
-    for(ll i=3; i*i<=n; i+=2){
-        while(n % i == 0){ factors.push_back(i); n /= i; }
+    // 2. Arrays to store the upper convex hull of lines (y = m*x + c)
+    llint *hull_m = new llint[N + 1];
+    llint *hull_c = new llint[N + 1];
+    int hull_sz = 0;
+
+    // 3. Build the upper envelope in O(N)
+    for (int i = 1; i <= N; ++i) {
+        llint m = -pref[i - 1];
+        llint c = pref[i];
+
+        while (hull_sz >= 2) {
+            llint m1 = hull_m[hull_sz - 2], c1 = hull_c[hull_sz - 2];
+            llint m2 = hull_m[hull_sz - 1], c2 = hull_c[hull_sz - 1];
+            llint m3 = m, c3 = c;
+            
+            // Check if the middle line (m2, c2) is redundant.
+            // Cross-multiplying the intersection condition to prevent double precision loss
+            if ((c3 - c2) * (m1 - m2) >= (c2 - c1) * (m2 - m3)) {
+                hull_sz--;
+            } else {
+                break;
+            }
+        }
+        hull_m[hull_sz] = m;
+        hull_c[hull_sz] = c;
+        hull_sz++;
     }
-    if(n != 1) factors.push_back(n);
-    return factors;
+
+    llint current_start = 0;
+    
+    // 4. Calculate the minimum start time for each subsequent chip in O(M log N)
+    for (int j = 1; j < M; ++j) {
+        llint fj_1 = complex[j - 1];
+        llint fj = complex[j];
+
+        int l = 0, r = hull_sz - 2;
+        int best_idx = hull_sz - 1;
+
+        // Binary search to find the optimal line for the ratio fj / fj_1
+        while (l <= r) {
+            int mid = l + (r - l) / 2;
+            llint mA = hull_m[mid], cA = hull_c[mid];
+            llint mB = hull_m[mid + 1], cB = hull_c[mid + 1];
+
+            // If x is to the right of the intersection, line A is better
+            if (fj * (mA - mB) >= fj_1 * (cB - cA)) {
+                best_idx = mid;
+                r = mid - 1;
+            } else {
+                l = mid + 1;
+            }
+        }
+        current_start += fj_1 * hull_c[best_idx] + fj * hull_m[best_idx];
+    }
+
+    // 5. Total time is the accumulated start time plus the processing phase for the very last chip
+    llint ans = current_start + (llint)complex[M - 1] * pref[N];
+
+    // Cleanup dynamic memory
+    delete[] pref;
+    delete[] hull_m;
+    delete[] hull_c;
+
+    return ans;
 }
 
-ll modExp(ll a, ll b, ll mod){
-     a%=mod;
-      ll res=1;              
-      while(b){
-          if(b & 1){
-              res=res*a %mod;
-          }
-          a=a*a % mod;
-          b/=2;
-      }
-      return res;
-}
-long long modInverse(long long a, long long mod) {
-    return modExp(a, mod - 2, mod);
-}
-//priority_queue<int, vector<int>, greater<int>> minPQ;
-
-//------------------------Solution starts from here------------------------
-
-void solve(){
-    ll n ;cin>>n;
-    if(n==2)cout<<2<<nl;
-    else if(n==3)cout<<3<<nl;
-    else if(n%2==1)cout<<1<<nl;
-    else cout<<0<<nl;
-}
-
-int32_t main(){
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
-    test
-        solve();
+int main( void )
+{
+    int M, N;
+    int *rtime;
+    int *complex;
+    
+    std::cin >> N >> M;
+    
+    rtime = new int[N];
+    complex = new int[M];
+    
+    for( int i = 0; i < N; ++i )
+        std::cin >> *(rtime + i);
+        
+    for( int i = 0; i < M; ++i )
+        std::cin >> *(complex + i);
+        
+    std::cout << alignProcess(M, N, rtime, complex) << "\n";
+    
+    delete[] rtime;
+    delete[] complex;
+    
     return 0;
 }
